@@ -41,6 +41,7 @@ import java.awt.image.*;
 import java.lang.Math;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 //import java.awt.KeyEventDispatcher;
 //import java.awt.KeyboardFocusManager;
 
@@ -56,10 +57,13 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	private int time;
 	private int FPS=0;
 	
+	private boolean [][] MAP;
+	
 	public LabyrinthDisplay(){
 		//super("LABYRINTH");
 		getScreenSpecs();
 		setTimer();
+		generateMap();
 		//if(isFullScreen && isFullScreenSupported()) setFullScreenWindow(Window w); //for exclusive full mode - https://docs.oracle.com/javase/tutorial/extra/fullscreen/exclusivemode.html		
 		this.setLayout(null);
 		//this.setIconImage(Image image); //details
@@ -123,14 +127,47 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
         }
 		
 	}
+	public boolean randomBool(){
+		return (Math.random()<0.5);
+	}
+	
+	public void generateMap(){
+		//Random random = new Random();
+		MAP=new boolean[16][9];
+		for(int i=0;i<16;i++){
+			for(int k=0;k<9;k++){
+				//MAP[i][k]= random.nextBoolean();
+				MAP[i][k]= randomBool();
+			}
+		}
+	}
 	
 	public void paint(Graphics g){
 		Graphics buff = buffer.getGraphics();
 		buff.drawImage(background,0,0,this);
+		
+		for(int i=0;i<16;i++){
+			for(int k=0;k<+9;k++){
+				if(MAP[i][k]==false){
+					//buff.setColor(Color.WHITE);
+					buff.setColor(new Color(255,255,255,127)); //50% transparent white
+					
+				}else{
+					//buff.setColor(Color.BLACK);
+					buff.setColor(new Color(0,0,0,127)); //50% transperent Black
+				}
+				
+				buff.fillRect((int)((double)i*(1920./16.)),(int)((double)k*(1080./9.)),(int)((1920./16.)),(int)((1080./9.)));
+			}
+		}
+		
+		
 		//FPS
 		buff.setColor(Color.GREEN);
 		buff.setFont(new Font("Arial", Font.BOLD, 40));
 		buff.drawString(Integer.toString(FPS),100,100);
+		
+		
 		
 		g.drawImage(buffer,0,0,this);
 	}
