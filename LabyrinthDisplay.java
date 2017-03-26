@@ -51,7 +51,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	private BufferedImage buffer;
 	private Image background;
 	private boolean isFullScreen = false;
-	private final boolean MASKING = true;
+	private final boolean MASKING = true; //set to false for testing since it takes 5s to launch the game
 	private DistanceFilter Mask;
 	private int radius;
 	
