@@ -51,6 +51,9 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	private BufferedImage buffer;
 	private Image background;
 	private boolean isFullScreen = false;
+	private final boolean MASKING = true; //set to false for testing since it takes 5s to launch the game
+	private DistanceFilter Mask;
+	private int radius;
 	
 	private Timer myTimer;
 	private int TPS_TIMER_MS;
@@ -58,6 +61,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	private int FPS=0;
 	
 	private boolean [][] MAP;
+	private Player player;
 	
 	public LabyrinthDisplay(){
 		//super("LABYRINTH");
@@ -68,19 +72,31 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		this.setLayout(null);
 		//this.setIconImage(Image image); //details
 		//this.setExtendedState(JFrame.MAXIMIZED_BOTH); does not require getScreenSpecs
+		//SCREEN_WIDTH=800; //testing size
+		//SCREEN_HEIGHT=600;
 		this.setSize(SCREEN_WIDTH,SCREEN_HEIGHT);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setUndecorated(true);//remove upper bar
 		this.setResizable(false);
+		//this.setIgnoreRepaint( true );
 		
 		buffer = new BufferedImage(SCREEN_WIDTH,SCREEN_HEIGHT,BufferedImage.TYPE_INT_RGB);
 		
 		Toolkit t = Toolkit.getDefaultToolkit();
-		background = t.getImage("Lab_Background_Pic.jpg");
+		background = t.getImage("Lab_Background_Pic.jpg");//check resizing image to resolution
 		
 		myTimer = new Timer(TPS_TIMER_MS,this);
 		time = 0;
+		
+		player = new Player(0,0,0);
+		
+		radius = 5;
+		
+		//Mask = new DistanceFilter(500,SCREEN_WIDTH,SCREEN_HEIGHT);
+		if(MASKING)Mask = new DistanceFilter(100*radius,SCREEN_WIDTH,SCREEN_HEIGHT);
+		
+		
 		
 		this.setVisible(true);
 		this.addKeyListener(this);
@@ -142,11 +158,11 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		}
 	}
 	
-	public void paint(Graphics g){
+	public void paint(Graphics g){ 
 		Graphics buff = buffer.getGraphics();
-		buff.drawImage(background,0,0,this);
+		buff.drawImage(background,0,0,this);//has a fluidity effect without a wallpaper due to partial transparency of the walls
 		
-		for(int i=0;i<16;i++){
+		for(int i=0;i<16;i++){ //paint rectangles in 16:9 aspect ratio
 			for(int k=0;k<+9;k++){
 				if(MAP[i][k]==false){
 					//buff.setColor(Color.WHITE);
@@ -156,10 +172,22 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 					//buff.setColor(Color.BLACK);
 					buff.setColor(new Color(0,0,0,127)); //50% transperent Black
 				}
-				
-				buff.fillRect((int)((double)i*(1920./16.)),(int)((double)k*(1080./9.)),(int)((1920./16.)),(int)((1080./9.)));
+				double square_width=(((double)SCREEN_WIDTH)/16.);
+				double square_height=(((double)SCREEN_HEIGHT)/9.);
+				//buff.drawRect((int)((double)i*square_width),(int)((double)k*square_height),(int)(square_width),(int)(square_height));//reduce leftover from redraw, in the case of no background being repainted. Else it makes too bright/dark lines
+				buff.fillRect((int)((double)i*square_width),(int)((double)k*square_height),(int)(square_width),(int)(square_height));
 			}
 		}
+		
+		//paint player
+		buff.setColor(Color.RED);
+		buff.fillOval(player.x,player.y,20,20);
+		
+		//paint dark filer, still being tested...problem is that it is too complex, creates a start delay
+		
+		
+		
+		if(MASKING)buff.drawImage(Mask.getImage(),player.x-SCREEN_WIDTH,player.y-SCREEN_HEIGHT,this);
 		
 		
 		//FPS
@@ -171,7 +199,6 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		
 		g.drawImage(buffer,0,0,this);
 	}
-
 
 
 
@@ -194,15 +221,19 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		}
 		else if(e.getKeyCode()== KeyEvent.VK_UP){
 			System.out.println("UP Pressed!");
+			if(player.y>0) player.y--;
 		}
 		else if(e.getKeyCode()== KeyEvent.VK_DOWN){
 			System.out.println("DOWN Pressed!");
+			if(player.y<(SCREEN_HEIGHT-20)) player.y++;//switch 20 by player y dimension (to be implemented)
 		}
 		else if(e.getKeyCode()== KeyEvent.VK_LEFT){
 			System.out.println("LEFT Pressed!");
+			if(player.x>0) player.x--;
 		}
-		else if(e.getKeyCode()== KeyEvent.VK_RIGHT){
+		else if(e.getKeyCode()== KeyEvent.VK_RIGHT){//switch 20 by player x dimension (to be implemented)
 			System.out.println("RIGHT Pressed!");
+			if(player.x<(SCREEN_WIDTH-20)) player.x++;
 		}
 		else if(e.getKeyCode()== KeyEvent.VK_ENTER){
 			System.out.println("ENTER Pressed!");
