@@ -26,10 +26,10 @@ public class Player {
 	
 	protected int x,y,dir;
 	
-	public Player(int X, int Y, int DIR){
+	public Player(int X, int Y, int dirr){
 		x=X;
 		y=Y;
-		dir=DIR;
+		dir=dirr;
 	}
 }
 
