@@ -51,7 +51,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	private BufferedImage buffer;
 	private Image background;
 	private boolean isFullScreen = false;
-	private final boolean MASKING = true; //set to false for testing since it takes 5s to launch the game
+	private final boolean MASKING = true;
 	private DistanceFilter Mask;
 	private int radius;
 	
@@ -96,7 +96,15 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		//Mask = new DistanceFilter(500,SCREEN_WIDTH,SCREEN_HEIGHT);
 		if(MASKING)Mask = new DistanceFilter(100*radius,SCREEN_WIDTH,SCREEN_HEIGHT);
 		
-		
+		//remove cursor from screen
+			// Transparent 16 x 16 pixel cursor image.
+		BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+
+			// Create a new blank cursor.
+		Cursor blankCursor = t.createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
+
+			// Set the blank cursor to the JFrame.
+		this.setCursor(blankCursor);
 		
 		this.setVisible(true);
 		this.addKeyListener(this);
