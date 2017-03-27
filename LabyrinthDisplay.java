@@ -59,7 +59,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		
 		myTimer = new Timer(TPS_TIMER_MS,this);
 		time = 0;
-		int startY = map.getStartY();
+		int startY = map.getStart();
 		player = new Player(0,startY*SCREEN_HEIGHT/(DIFFICULTY*9),0);
 		
 		radius = 2;
