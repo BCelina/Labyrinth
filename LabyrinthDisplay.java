@@ -23,7 +23,9 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	private Timer myTimer;
 	private int TPS_TIMER_MS;
 	private int time;
+	//private long millis = System.currentTimeMillis();
 	private int FPS=0;
+	private static final int IFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
 	
 	
 	
@@ -31,6 +33,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	private Player player;
 	private int DIFFICULTY = 1;
 	private int step=10;
+	private boolean [] keysPressed={false,false,false,false};
 	
 	public LabyrinthDisplay(){
 		//super("LABYRINTH");
@@ -73,6 +76,8 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 
 			// Set the blank cursor to the JFrame.
 		this.setCursor(blankCursor);
+
+		render();
 		
 		this.setVisible(true);
 		this.addKeyListener(this);
@@ -83,6 +88,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	
 	private void setTimer(){//same Framerate as your monitor
 		TPS_TIMER_MS =(int)((1/(double)SCREEN_REFRESH)*1000);//T=1/f * 1000 (ms)
+		//TPS_TIMER_MS=16;
 	}
 	
 	
@@ -115,9 +121,12 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	}
 	
 	public void paint(Graphics g){ 
+		g.drawImage(buffer,0,0,this);
+	}
+	public void render(){
+		
 		Graphics buff = buffer.getGraphics();
 		buff.drawImage(background,0,0,this);//has a fluidity effect without a wallpaper due to partial transparency of the walls
-		
 		for(int i=0;i<(int)(16*DIFFICULTY);i++){ //paint rectangles in 16:9 aspect ratio
 			for(int k=0;k<(int)(9*DIFFICULTY);k++){
 				if(MAP[k][i]==false){
@@ -150,9 +159,6 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		buff.setFont(new Font("Arial", Font.BOLD, 40));
 		buff.drawString(Integer.toString(FPS),100,100);
 		
-		
-		
-		g.drawImage(buffer,0,0,this);
 	}
 
 
@@ -161,6 +167,8 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		time += TPS_TIMER_MS;
         //simulateGame();
         FPS++;
+        move();
+        render();
         repaint();
 	}
 	
@@ -170,31 +178,48 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		
 	}
 	public void keyPressed(KeyEvent e){
-		if(e.getKeyCode()== KeyEvent.VK_ESCAPE){
+			int key = e.getKeyCode();
+		if(key== KeyEvent.VK_ESCAPE ){
 			System.out.println("ESC Pressed!");
 			System.exit(0);
 		}
-		else if(e.getKeyCode()== KeyEvent.VK_UP){
-			System.out.println("UP Pressed!");
-			if(player.y>0&& pixelIsWhite(player.x,player.y-step-0) && pixelIsWhite(player.x+19,player.y-step)) player.y-=step;//player size-1
+		else if(key== KeyEvent.VK_UP || key==KeyEvent.VK_W){
+			keysPressed[0]=true;
 		}
-		else if(e.getKeyCode()== KeyEvent.VK_DOWN){
-			System.out.println("DOWN Pressed!");
-			if(player.y<(SCREEN_HEIGHT-20)&& pixelIsWhite(player.x+19,player.y+step+19) && pixelIsWhite(player.x,player.y+step+19)) player.y+=step;//switch 20 by player y dimension (to be implemented)
+		else if(key== KeyEvent.VK_DOWN | key==KeyEvent.VK_S){
+			keysPressed[1]=true;
 		}
-		else if(e.getKeyCode()== KeyEvent.VK_LEFT){
-			System.out.println("LEFT Pressed!");
-			if(player.x>0 && pixelIsWhite(player.x-step,player.y) && pixelIsWhite(player.x,player.y+19)) player.x-=step;
+		else if(key== KeyEvent.VK_LEFT || key==KeyEvent.VK_A){
+			keysPressed[2]=true;
 		}
-		else if(e.getKeyCode()== KeyEvent.VK_RIGHT){//switch 20 by player x dimension (to be implemented)
-			System.out.println("RIGHT Pressed!");
-			if(player.x<(SCREEN_WIDTH-20)&& pixelIsWhite(player.x+step+19, player.y) && pixelIsWhite(player.x+step+19, player.y+19)) player.x+=step;
+		else if(key== KeyEvent.VK_RIGHT || key==KeyEvent.VK_D){//switch 20 by player x dimension (to be implemented)
+			keysPressed[3]=true;
 		}
-		else if(e.getKeyCode()== KeyEvent.VK_ENTER){
+		else if(key== KeyEvent.VK_ENTER){
 			System.out.println("ENTER Pressed!");
 		}
 	}
 	public void keyTyped(KeyEvent e){
+		
+	}
+	private void move(){
+		if(keysPressed[0]){
+			System.out.println("UP Pressed!");
+			if(player.y>0&& pixelIsWhite(player.x,player.y-step-0) && pixelIsWhite(player.x+19,player.y-step)) player.y-=step;//player size-1
+		}
+		if(keysPressed[1]){
+			System.out.println("DOWN Pressed!");
+			if(player.y<(SCREEN_HEIGHT-20)&& pixelIsWhite(player.x+19,player.y+step+19) && pixelIsWhite(player.x,player.y+step+19)) player.y+=step;//switch 20 by player y dimension (to be implemented)
+		}
+		if(keysPressed[2]){
+			System.out.println("LEFT Pressed!");
+			if(player.x>0 && pixelIsWhite(player.x-step,player.y) && pixelIsWhite(player.x,player.y+19)) player.x-=step;
+		}
+		if(keysPressed[3]){//switch 20 by player x dimension (to be implemented)
+			System.out.println("RIGHT Pressed!");
+			if(player.x<(SCREEN_WIDTH-20)&& pixelIsWhite(player.x+step+19, player.y) && pixelIsWhite(player.x+step+19, player.y+19)) player.x+=step;
+		}
+		keysPressed = new boolean[]{false,false,false,false};
 		
 	}
 	public boolean checkCollision(int x, int y){
