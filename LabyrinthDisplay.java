@@ -8,6 +8,7 @@ import java.lang.Math;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.Random;
+import java.awt.Robot;
 
 public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListener{
 	
@@ -28,7 +29,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	
 	private boolean [][] MAP;
 	private Player player;
-	private int DIFFICULTY = 10;
+	private int DIFFICULTY = 1;
 	private int step=10;
 	
 	public LabyrinthDisplay(){
@@ -58,10 +59,10 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		int startY = map.getStartY();
 		player = new Player(0,startY*SCREEN_HEIGHT/(DIFFICULTY*9),0);
 		
-		radius = 1;
+		radius = 2;
 		
 		//Mask = new DistanceFilter(500,SCREEN_WIDTH,SCREEN_HEIGHT);
-		if(MASKING)Mask = new DistanceFilter(100*radius,SCREEN_WIDTH,SCREEN_HEIGHT);
+		if(MASKING)Mask = new DistanceFilter(100*radius,SCREEN_WIDTH,SCREEN_HEIGHT,DIFFICULTY,step);
 		
 		//remove cursor from screen
 			// Transparent 16 x 16 pixel cursor image.
@@ -123,7 +124,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 					buff.setColor(new Color(0,0,0,127)); //50% transperent Black
 					
 				}else{
-					buff.setColor(new Color(255,255,255,127)); //50% transparent white
+					buff.setColor(new Color(255,255,255,255)); //100% transparent white
 					
 				}
 				double square_width=(((double)SCREEN_WIDTH)/(16.*((double)DIFFICULTY)));
@@ -141,7 +142,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		
 		
 		
-		if(MASKING)buff.drawImage(Mask.getImage(),player.x-SCREEN_WIDTH,player.y-SCREEN_HEIGHT,this);
+		if(MASKING)buff.drawImage(Mask.getImage(),player.x-SCREEN_WIDTH+10,player.y-SCREEN_HEIGHT+10,this);//10 object dimensions
 		
 		
 		//FPS
@@ -175,19 +176,19 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		}
 		else if(e.getKeyCode()== KeyEvent.VK_UP){
 			System.out.println("UP Pressed!");
-			if(player.y>0) player.y-=step;
+			if(player.y>0&& pixelIsWhite(player.x,player.y-step-0) && pixelIsWhite(player.x+19,player.y-step)) player.y-=step;//player size-1
 		}
 		else if(e.getKeyCode()== KeyEvent.VK_DOWN){
 			System.out.println("DOWN Pressed!");
-			if(player.y<(SCREEN_HEIGHT-20)) player.y+=step;//switch 20 by player y dimension (to be implemented)
+			if(player.y<(SCREEN_HEIGHT-20)&& pixelIsWhite(player.x+19,player.y+step+19) && pixelIsWhite(player.x,player.y+step+19)) player.y+=step;//switch 20 by player y dimension (to be implemented)
 		}
 		else if(e.getKeyCode()== KeyEvent.VK_LEFT){
 			System.out.println("LEFT Pressed!");
-			if(player.x>0) player.x-=step;
+			if(player.x>0 && pixelIsWhite(player.x-step,player.y) && pixelIsWhite(player.x,player.y+19)) player.x-=step;
 		}
 		else if(e.getKeyCode()== KeyEvent.VK_RIGHT){//switch 20 by player x dimension (to be implemented)
 			System.out.println("RIGHT Pressed!");
-			if(player.x<(SCREEN_WIDTH-20)) player.x+=step;
+			if(player.x<(SCREEN_WIDTH-20)&& pixelIsWhite(player.x+step+19, player.y) && pixelIsWhite(player.x+step+19, player.y+19)) player.x+=step;
 		}
 		else if(e.getKeyCode()== KeyEvent.VK_ENTER){
 			System.out.println("ENTER Pressed!");
@@ -196,7 +197,23 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	public void keyTyped(KeyEvent e){
 		
 	}
-	
+	public boolean checkCollision(int x, int y){
+		boolean ret = false;
+		if(!pixelIsWhite(x,y))return true;
+		return ret;
+	}
+	public boolean pixelIsWhite(int x, int y){
+		try{
+			Robot robot = new Robot();
+			Color color = robot.getPixelColor(x,y);
+			if(color.equals(new Color(255,255,255))) return true;
+		}catch (AWTException e) {
+            e.printStackTrace();
+        }
+		
+		return false;
+		
+	}
 	public static void main (String args[]) {
 		new LabyrinthDisplay();
 	}

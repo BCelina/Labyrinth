@@ -15,11 +15,15 @@ public class DistanceFilter {
 	private BufferedImage graphics;
 	private Graphics2D ig2;
 	private static int SCREEN_HEIGHT, SCREEN_WIDTH;
+	private int DIFFICULTY;
 	
-	public DistanceFilter(int D, int sw, int sh){
+	public DistanceFilter(int D, int sw, int sh, int dif, int step){
 		
 		SCREEN_WIDTH=sw;
 		SCREEN_HEIGHT=sh;
+		DIFFICULTY = dif;
+		int full_radius=step*2+4;
+		//int gradient_radius=; D
 		
 		graphics = new BufferedImage(2*SCREEN_WIDTH,2*SCREEN_HEIGHT,BufferedImage.TYPE_INT_ARGB);
 		ig2 = graphics.createGraphics();
@@ -30,8 +34,8 @@ public class DistanceFilter {
 					ig2.setColor(Color.BLACK);
 					ig2.drawLine(i,k,i,k);
 					//System.out.println(i+" and "+k+" painted black!");
-				}else if(d>1 &&d<=D){ //set difficulty level here (check multiplier experimentally)
-					ig2.setColor(new Color(0,0,0,(int)(255.*d/((double)D))));
+				}else if(d>full_radius &&d<=D){ //set difficulty level here (check multiplier experimentally)//change 40 with a dynamic value
+					ig2.setColor(new Color(0,0,0,(int)(255.*d/(double)D-(double)full_radius)));
 					ig2.drawLine(i,k,i,k);
 						//System.out.println(i+" and "+k+" painted black!");
 				}
