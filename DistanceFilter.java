@@ -34,10 +34,12 @@ public class DistanceFilter {
 					ig2.setColor(Color.BLACK);
 					ig2.drawLine(i,k,i,k);
 					//System.out.println(i+" and "+k+" painted black!");
-				}else if(d>full_radius &&d<=D){ //set difficulty level here (check multiplier experimentally)//change 40 with a dynamic value
-					ig2.setColor(new Color(0,0,0,(int)(255.*d/(double)D-(double)full_radius)));
+				}else if(d>full_radius && d<=D){ //set difficulty level here (check multiplier experimentally)//change 40 with a dynamic value
+					int alpha = (int)(255.*(d-full_radius)/(double)D-(double)full_radius);
+					if(alpha<0)alpha=0;
+					ig2.setColor(new Color(0,0,0,alpha));
 					ig2.drawLine(i,k,i,k);
-						//System.out.println(i+" and "+k+" painted black!");
+						//System.out.println(i+" and "+k+" painted black! at "+d+" with alpha "+alpha);
 				}
 			}
 		}
