@@ -53,6 +53,17 @@ public class Maze{
 		return count;
 	}	
 	
+	public int getStartY(){
+		int tmp=0;
+		for (int i=0; i<maze.length; i++){
+			if (maze[i][0]){
+				tmp=i;
+				break;
+			}
+		}
+		return tmp;
+	}
+	
 	public void draw(){ //just drawing
 		for (int i=0; i<maze.length; i++){
 			for (int j=0; j<maze[1].length; j++){
