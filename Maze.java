@@ -53,7 +53,7 @@ public class Maze{
 		return count;
 	}	
 	
-	public int getStartY(){
+	public int getStart(){
 		int tmp=0;
 		for (int i=0; i<maze.length; i++){
 			if (maze[i][0]){
