@@ -17,7 +17,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	private Image background;
 	private Image wall_Image;
 	private boolean isFullScreen = false;
-	private final boolean MASKING = false; //set to false for testing since it takes 5s to launch the game
+	private final boolean MASKING = true; //set to false for testing since it takes 5s to launch the game
 	private DistanceFilter Mask;
 	private int radius;
 	
@@ -34,8 +34,12 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	private double square_width,square_height;
 	private Player player;
 	private int DIFFICULTY =2;
+	private int Character=2;
 	private int step;
 	private boolean [] keysPressed={false,false,false,false};
+	
+	private boolean gameWon = false;
+	
 	
 	public LabyrinthDisplay(){
 		//super("LABYRINTH");
@@ -65,14 +69,14 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		myTimer = new Timer(TPS_TIMER_MS,this);
 		time = 0;
 		int startY = map.getStart();
-		player = new Player(0,startY*SCREEN_HEIGHT/(DIFFICULTY*9),(int)square_width,(int)square_height,0,2);
+		player = new Player(0,startY*SCREEN_HEIGHT/(DIFFICULTY*9),(int)square_width,(int)square_height,0,Character);
 		
 		step=player.width/2;
 		
-		radius = 2;//check automatic calculation
+		radius = (int)(square_width)*3;
 		
 		//Mask = new DistanceFilter(500,SCREEN_WIDTH,SCREEN_HEIGHT);
-		if(MASKING)Mask = new DistanceFilter((int)(square_width)*3,SCREEN_WIDTH,SCREEN_HEIGHT,DIFFICULTY,step);
+		if(MASKING)Mask = new DistanceFilter(radius,SCREEN_WIDTH,SCREEN_HEIGHT,DIFFICULTY,step);
 		
 		//remove cursor from screen
 			// Transparent 16 x 16 pixel cursor image.
@@ -169,11 +173,17 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		
 		if(MASKING)buff.drawImage(Mask.getImage(),player.x-SCREEN_WIDTH+(player.width/2),player.y-SCREEN_HEIGHT+(player.height/2),this);//10 object dimensions
 		
-		
-		//FPS
+		/*
+		//FRAMES
 		buff.setColor(Color.GREEN);
 		buff.setFont(new Font("Arial", Font.BOLD, 40));
 		buff.drawString(Integer.toString(FPS),100,100);
+		*/
+		if(gameWon){
+			buff.setColor(Color.RED);
+			buff.setFont(new Font("Arial", Font.BOLD, SCREEN_HEIGHT/5));
+			buff.drawString("You Won!",SCREEN_WIDTH/4,SCREEN_HEIGHT/3);
+		}
 		
 	}
 
@@ -225,22 +235,23 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	private void move(){
 		if(keysPressed[0]){
 			System.out.println("UP Pressed!");
-			if(player.y>0&& pixelIsWhite(player.x+1,player.y-step+1) && pixelIsWhite(player.x+player.width-1,player.y-step+1)){
+			if(player.y>0&& pixelIsWhite(player.x+2,player.y-step+2) && pixelIsWhite(player.x+player.width-2,player.y-step+2)){
 				 player.y-=step;//player size-1
 				 System.out.println("Gone up!");
 			 }
 		}
 		if(keysPressed[1]){
 			System.out.println("DOWN Pressed!");
-			if(player.y<(SCREEN_HEIGHT-player.height)&& pixelIsWhite(player.x+player.width-1,player.y+step+player.height-1) && pixelIsWhite(player.x,player.y+step+player.height-1)) player.y+=step;//switch 20 by player y dimension (to be implemented)
+			if(player.y<(SCREEN_HEIGHT-player.height)&& pixelIsWhite(player.x+player.width-2,player.y+step+player.height-2) && pixelIsWhite(player.x+2,player.y+step+player.height-2)) player.y+=step;//switch 20 by player y dimension (to be implemented)
 		}
 		if(keysPressed[2]){
 			System.out.println("LEFT Pressed!");
-			if(player.x>0 && pixelIsWhite(player.x-step+1,player.y+1) && pixelIsWhite(player.x-step+1,player.y+player.height-1)) player.x-=step;
+			if(player.x>0 && pixelIsWhite(player.x-step+2,player.y+2) && pixelIsWhite(player.x-step+2,player.y+player.height-2)) player.x-=step;
 		}
 		if(keysPressed[3]){//switch 20 by player x dimension (to be implemented)
 			System.out.println("RIGHT Pressed!");
-			if(player.x<(SCREEN_WIDTH-player.width)&& pixelIsWhite(player.x+step+player.width-10, player.y+1) && pixelIsWhite(player.x+step+player.width-10, player.y+player.height-1)) player.x+=step;
+			if(player.x<(SCREEN_WIDTH-player.width)&& pixelIsWhite(player.x+step+player.width-2, player.y+2) && pixelIsWhite(player.x+step+player.width-2, player.y+player.height-2)) player.x+=step;
+			if(player.x*1.01>SCREEN_WIDTH-square_width) gameWon=true;
 		}
 		keysPressed = new boolean[]{false,false,false,false};
 		
