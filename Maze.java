@@ -1,9 +1,13 @@
 public class Maze{
 	public boolean[][] maze;
+	public boolean[][] solution; //solution to send to the visual
+	private char[][] sol; //solution to work inside
 	
 	
 	public Maze(int n){
 		maze=new boolean [n*9][n*16];
+		solution=new boolean [n*9][n*16];
+		sol= new char [n*9][n*16];
 		generate();
 	}
 	
@@ -11,6 +15,7 @@ public class Maze{
 		for (int i=0; i<maze.length; i++){ //building the surrounding walls
 			for (int j=0; j<maze[1].length; j++){
 				maze[i][j]=false;
+				sol[i][j]='-';
 			}
 		}
 		int k=1+(int)(Math.random()*(maze.length-2)); //setting a starting point
@@ -31,13 +36,11 @@ public class Maze{
 	
 	public void construct(int x, int y){
 		int temp=(int)(Math.random()*11); //setting the weight of movement 
-		/*if ((temp<1)&&(!maze[x][y-1])&&(y-1>0)) {maze[x][y-1]=true; y--;}//left 1
-		else */if ((temp<4)&&(!maze[x-1][y])&&(x-1>0)) {maze[x-1][y]=true; x--;}//up 3
-		else if ((temp<7)&&(!maze[x+1][y])&&(x+1<maze.length-1)) {maze[x+1][y]=true; x++;}//down 3
-		else if ((!maze[x][y+1])&&(y+1<maze[0].length-1)) {maze[x][y+1]=true; y++;}//right 4
+		if ((temp<3)&&(!maze[x-1][y])&&(x-1>0)) {maze[x-1][y]=true; x--;}//up 3
+		else if ((temp<6)&&(!maze[x+1][y])&&(x+1<maze.length-1)) {maze[x+1][y]=true; x++;}//down 3
+		else if ((!maze[x][y+1])&&(y+1<maze[0].length-1)) {maze[x][y+1]=true; y++;}//right 5
 		else if ((!maze[x+1][y])&&(x+1<maze.length-1)) {maze[x+1][y]=true; x++;}
 		else if ((!maze[x-1][y])&&(x-1>0)) {maze[x-1][y]=true; x--;}
-		//else if ((!maze[x][y-1])&&(y-1>0)) {maze[x][y-1]=true; y--;}
 		else generate();
 		if ((y+1)!=(maze[0].length-1)) construct(x,y); //checking if not arrived on right
 		maze[x][y+1]=true; //confirming arrival to the other end
@@ -51,7 +54,7 @@ public class Maze{
 			}
 		}
 		return count;
-	}	
+	}
 	
 	public int getStart(){
 		int tmp=0;
@@ -64,20 +67,29 @@ public class Maze{
 		return tmp;
 	}
 	
-	public void draw(){ //just drawing
-		for (int i=0; i<maze.length; i++){
-			for (int j=0; j<maze[1].length; j++){
-				if (maze[i][j]) System.out.print("-");
-				else System.out.print("x");
+	public void solveMaze(int xx, int yy){ //solving with starting point given by the graphics
+		int x=xx;
+		int y=yy;
+		solve(x,y);
+		for (int i=0; i<solution.length; i++){ //transfering data to the boolean array
+			for (int j=0; j<solution[1].length; j++){
+				if (sol[i][j]=='+') solution[i][j]=true;
 			}
 			System.out.println();
 		}
 	}
-					
 	
-	public static void main (String[] args) {
-		Maze mmaze=new Maze(5);
-		mmaze.draw();
+	public boolean solve(int x, int y){ //find a solution by using backtracking
+		if (x<0 || y<0 || x>=maze.length || y>=maze[0].length) return false;
+		if (y==maze[0].length-1) {sol[x][y]='+'; return true;}
+		if (!maze[x][y] || sol[x][y]=='x' || sol[x][y]=='+') return false;
+		sol[x][y]='+'; //mark the cell to the solution
+		if (solve(x,y+1)) return true; //try right
+		if (solve(x-1,y)) return true; //try up
+		if (solve(x+1,y)) return true; //try down
+		if (solve(x,y-1)) return true; // try left
+		sol[x][y]='x'; //unmark the cell as solution
+		return false;
 	}
 }
 
