@@ -33,9 +33,12 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	private boolean [][] MAP;
 	private double square_width,square_height;
 	private Player player;
-	private int DIFFICULTY =2;
+	
+	
+	private int DIFFICULTY =6;
 	private int Character=2;
 	private int step;
+	
 	private boolean [] keysPressed={false,false,false,false};
 	
 	private boolean gameWon = false;
@@ -44,13 +47,16 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	public LabyrinthDisplay(){
 		//super("LABYRINTH");
 		getScreenSpecs();
+		//SCREEN_HEIGHT=720;
+		//SCREEN_WIDTH=1024;
 		setTimer();
 		//generateMap();
 		Maze map = new Maze (DIFFICULTY);
 		MAP = map.maze;
 		square_width=(((double)SCREEN_WIDTH)/(16.*((double)DIFFICULTY)));
 		square_height=(((double)SCREEN_HEIGHT)/(9.*((double)DIFFICULTY)));
-		map.draw();
+		//System.out.println(square_width+" X "+square_height);
+		//map.draw();
 		this.setLayout(null);
 		//this.setIconImage(Image image); //details
 		this.setSize(SCREEN_WIDTH,SCREEN_HEIGHT);
@@ -69,7 +75,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		myTimer = new Timer(TPS_TIMER_MS,this);
 		time = 0;
 		int startY = map.getStart();
-		player = new Player(0,startY*SCREEN_HEIGHT/(DIFFICULTY*9),(int)square_width,(int)square_height,0,Character);
+		player = new Player(0,startY*SCREEN_HEIGHT/(DIFFICULTY*9),(int)square_width,(int)square_height,6,Character);//6 means Player starts looking right
 		
 		step=player.width/2;
 		
@@ -164,7 +170,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		//paint dark filer, still being tested...problem is that it is too complex, creates a start delay
 		
 		//image character
-		buff.drawImage(player.image,player.x,player.y,player.width,player.height,this);
+		buff.drawImage(player.getImage(),player.x,player.y,player.width,player.height,this);
 		
 		//rotating image character, it is not workings
 		//player.draw(buff,this);
@@ -234,22 +240,21 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	}
 	private void move(){
 		if(keysPressed[0]){
-			System.out.println("UP Pressed!");
+			//System.out.println("UP Pressed!");
 			if(player.y>0&& pixelIsWhite(player.x+2,player.y-step+2) && pixelIsWhite(player.x+player.width-2,player.y-step+2)){
 				 player.y-=step;//player size-1
-				 System.out.println("Gone up!");
 			 }
 		}
 		if(keysPressed[1]){
-			System.out.println("DOWN Pressed!");
+			//System.out.println("DOWN Pressed!");
 			if(player.y<(SCREEN_HEIGHT-player.height)&& pixelIsWhite(player.x+player.width-2,player.y+step+player.height-2) && pixelIsWhite(player.x+2,player.y+step+player.height-2)) player.y+=step;//switch 20 by player y dimension (to be implemented)
 		}
 		if(keysPressed[2]){
-			System.out.println("LEFT Pressed!");
+			//System.out.println("LEFT Pressed!");
 			if(player.x>0 && pixelIsWhite(player.x-step+2,player.y+2) && pixelIsWhite(player.x-step+2,player.y+player.height-2)) player.x-=step;
 		}
 		if(keysPressed[3]){//switch 20 by player x dimension (to be implemented)
-			System.out.println("RIGHT Pressed!");
+			//System.out.println("RIGHT Pressed!");
 			if(player.x<(SCREEN_WIDTH-player.width)&& pixelIsWhite(player.x+step+player.width-2, player.y+2) && pixelIsWhite(player.x+step+player.width-2, player.y+player.height-2)) player.x+=step;
 			if(player.x*1.01>SCREEN_WIDTH-square_width) gameWon=true;
 		}

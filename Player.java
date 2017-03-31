@@ -29,7 +29,7 @@ import javax.swing.*;//draw
 public class Player { //implement player dimensions
 	
 	public int x,y,dir,width,height;
-	protected Image image;
+	protected Image image_right,image_left,image_up,image_down,image_current;
 	private BufferedImage temp_image;
 	
 	public Player(int X, int Y,int w, int h, int dirr, int character){
@@ -37,70 +37,41 @@ public class Player { //implement player dimensions
 		y=Y;
 		height=h;
 		width=w;
-		dir=dirr;
-		setImage(character);
+		if(dirr!=4 || dirr!=6 || dirr!=8 || dirr!=2) dirr=6;
+		dir=dirr; //direction numpad style 6 right, 4 left, 2 down, 8 up
+		setCharacter(character);
+		setCurrentImage();
 		
 	}
-	private void setImage(int k){
-		Toolkit t = Toolkit.getDefaultToolkit();
-		if(k==1)image = t.getImage("Character1.png");
-		else if(k==2)image = t.getImage("Character2.png");
-		else if(k==3)image = t.getImage("Character3.png");
-		else t.getImage("Character1.png"); //a default image if somebody wants a Character that doesnt exist
+	public Player(int X, int Y,int w, int h, int character){
+		this(X,Y,w,h,6,character);
+	}
+	private void setCharacter(int k){
+		if(k==1)setimage("Character1");
+		else if(k==2)setimage("Character2");
+		else if(k==3)setimage("Character3");
+		else setimage("Character1"); //a default image if somebody wants a Character that doesnt exist
 		//image = image.getScaledInstance(width,height,Image.SCALE_SMOOTH);
-	}/*
-	public void getRotatedImage(){
-		double angle=0;
-		if(dir==6) ;//do nothing
-		else if(dir==8) angle=Math.toRadians(90);
-		else if (dir==2) angle=Math.toRadians(-90);
-		else if (dir==4) angle=Math.toRadians(180);
-		double sin =Math.sin(angle);
-		double cos = Math.cos(angle);
+	}
+	private void setimage(String s){
+		Toolkit t = Toolkit.getDefaultToolkit();
+		//get images for all directions
+		image_right = t.getImage(s+"_right"+".png");
+		image_left = t.getImage(s+"_left"+".png");
+		image_up = t.getImage(s+"_up"+".png");
+		image_down = t.getImage(s+"_down"+".png");
 		
-		BufferedImage bimg = toBufferedImage(getEmptyImage(width, height));
-		Graphics2D g = bimg.createGraphics();
-
-		g.translate((0)/2, (0)/2);
-		g.rotate(Math.toRadians(angle), width/2, height/2);
-		g.drawRenderedImage(toBufferedImage(img), null);
-		g.dispose();
-
-		return toImage(bimg);
-	}*/
-	private void getRotatedImage(){//8 is up, 6 is right, 4 is left, 2 is down (numpad style)
-		temp_image = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
-		if(dir==6) temp_image= toBufferedImage(image);//do nothing
-		else if(dir==8) temp_image=rotate(Math.toRadians(90));
-		else if (dir==2) temp_image=rotate(Math.toRadians(-90));
-		else if (dir==4) temp_image=rotate(Math.toRadians(-90));
-		//return temp;
+		setCurrentImage();
 	}
-	private BufferedImage rotate(double rotationRequired){
-		AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, width/2, height/2);
-		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-		return op.filter(toBufferedImage(image),null);
+	private void setCurrentImage(){
+		if(dir==6) image_current = image_right;
+		else if(dir==4) image_current = image_left;
+		else if(dir==2) image_current = image_down;
+		else if(dir==8) image_current = image_up;
 	}
-	private BufferedImage toBufferedImage(Image img){
-		if (img instanceof BufferedImage){
-			return (BufferedImage) img;
-		}
-
-	    // Create a buffered image with transparency
-	    BufferedImage bimage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-	
-	    // Draw the image on to the buffered image
-	    Graphics2D bGr = bimage.createGraphics();
-	    bGr.drawImage(img, width, height, null);
-	    bGr.dispose();
-	
-	    // Return the buffered image
-	    return bimage;
+	public Image getImage(){
+		setCurrentImage();
+		return image_current;
 	}
-	public void draw (Graphics g, JFrame jf){
-		g.drawImage(temp_image,x,y,jf);
-		
-	}
-	
 }
 
