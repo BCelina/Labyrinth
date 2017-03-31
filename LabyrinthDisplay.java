@@ -35,7 +35,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	private Player player;
 	
 	
-	private int DIFFICULTY =6;
+	private int DIFFICULTY =3;
 	private int Character=2;
 	private int step;
 	
