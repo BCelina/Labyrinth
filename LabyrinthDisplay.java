@@ -52,10 +52,11 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	private Player player;
 	
 	//Esthetical details
-	private int DIFFICULTY;
-	private int Character;
-	private int WALL;
-	private int step;
+	private int DIFFICULTY; //range 1-5
+	private int Character; //range 1-3
+	private int WALL; //range 1-5
+	private int step; //calculated automatically
+	private int visibility; // range 1-3
 	
 	//Game state parameters
 	private boolean [] keysPressed={false,false,false,false};
@@ -63,14 +64,17 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	
 	//Default Constructor for a standard game
 	public LabyrinthDisplay(){
-		this(3,2,1,true);
+		this(3,2,1,2,true);
 	}
 	//Constructor with Difficulty and Character choosing
 	public LabyrinthDisplay(int Diff, int Char,int Wall){
-		this(Diff, Char,Wall, true);
+		this(Diff, Char,Wall,2, true);
+	}
+	public LabyrinthDisplay(int Diff, int Char,int Wall,int Vis){
+		this(Diff, Char,Wall,Vis, true);
 	}
 	//Full Constructor
-	public LabyrinthDisplay(int Diff, int Char,int Wall, boolean Vignette){
+	public LabyrinthDisplay(int Diff, int Char,int Wall,int Vis, boolean Vignette){
 		//set Title of JFrame
 		super("LABYRINTH");
 		//set Game Parameters
@@ -78,6 +82,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		Character = Char;
 		MASKING = Vignette;
 		WALL=Wall;
+		visibility=Vis;
 		
 		getScreenSpecs(); //gets screen parameters
 		//SCREEN_HEIGHT=720; //set manually height resolution
@@ -114,7 +119,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		
 		step=player.width/2; //Player can move twice to reach a square
 		
-		radius = (int)(square_width)*3; //only three surounding frames are visible
+		radius = (int)(square_width)*visibility; //only three surounding frames are visible
 		
 		//if(MASKING)Mask = new DistanceFilter(radius,SCREEN_WIDTH,SCREEN_HEIGHT,DIFFICULTY,step);//required for move(), linear gradient with initial offset
 		if(MASKING)Mask = new DistanceFilter(radius,SCREEN_WIDTH,SCREEN_HEIGHT,0); //if using move2(), this is more elegant to look at
@@ -300,10 +305,11 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		return t.getImage(s);
 	}
 	public static void main (String args[]) {
-		int difficulty=3;
-		int character = 1;
-		int wall = 5;
-		new LabyrinthDisplay(difficulty,character,wall);
+		int difficulty=5;
+		int character = 3;
+		int wall = 4;
+		int vis = 2;
+		new LabyrinthDisplay(difficulty,character,wall,vis);
 	}
 	
 

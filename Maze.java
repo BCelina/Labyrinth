@@ -35,10 +35,10 @@ public class Maze{
 	}
 	
 	public void construct(int x, int y){
-		int temp=(int)(Math.random()*11); //setting the weight of movement 
+		int temp=(int)(Math.random()*9); //setting the weight of movement 
 		if ((temp<3)&&(!maze[x-1][y])&&(x-1>0)) {maze[x-1][y]=true; x--;}//up 3
 		else if ((temp<6)&&(!maze[x+1][y])&&(x+1<maze.length-1)) {maze[x+1][y]=true; x++;}//down 3
-		else if ((!maze[x][y+1])&&(y+1<maze[0].length-1)) {maze[x][y+1]=true; y++;}//right 5
+		else if ((!maze[x][y+1])&&(y+1<maze[0].length-1)) {maze[x][y+1]=true; y++;}//right 3
 		else if ((!maze[x+1][y])&&(x+1<maze.length-1)) {maze[x+1][y]=true; x++;}
 		else if ((!maze[x-1][y])&&(x-1>0)) {maze[x-1][y]=true; x--;}
 		else generate();
@@ -75,7 +75,6 @@ public class Maze{
 			for (int j=0; j<solution[1].length; j++){
 				if (sol[i][j]=='+') solution[i][j]=true;
 			}
-			System.out.println();
 		}
 	}
 	
