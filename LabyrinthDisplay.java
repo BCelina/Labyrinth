@@ -36,7 +36,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	private boolean MASKING = true; //set to false for testing since it takes 5s to launch the game
 	private DistanceFilter Mask;
 	private int radius;
-	Toolkit t = Toolkit.getDefaultToolkit(); //initiates toolkit for importing images
+	private Toolkit t = Toolkit.getDefaultToolkit(); //initiates toolkit for importing images
 	
 	//Timer parameters
 	private Timer myTimer;
