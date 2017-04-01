@@ -87,9 +87,11 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		square_width=(((double)SCREEN_WIDTH)/(16.*((double)DIFFICULTY))); //calculates width of a square in pixels
 		square_height=(((double)SCREEN_HEIGHT)/(9.*((double)DIFFICULTY))); //calculates height of a square in pixels
 		
+		Toolkit t = Toolkit.getDefaultToolkit(); //initiates toolkit for importing images
+		
 		//JFrame properties
 		this.setLayout(null);
-		//this.setIconImage(Image image); //the icon of the game
+		this.setIconImage(t.getImage("Labyrinth.png")); //the icon of the game
 		this.setSize(SCREEN_WIDTH,SCREEN_HEIGHT);//Size of window is equal to Screen resolution parameters
 		this.setLocationRelativeTo(null);//centered screen
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //set operation on exit
@@ -97,8 +99,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		this.setResizable(false); //disables resizing
 		
 		buffer = new BufferedImage(SCREEN_WIDTH,SCREEN_HEIGHT,BufferedImage.TYPE_INT_RGB); //initiates screen to be displayed
-		
-		Toolkit t = Toolkit.getDefaultToolkit(); //initiates toolkit for importing images
+
 		
 		//background = t.getImage("Lab_Background_Pic.jpg");//gets image to be drawn in wallpaper, not used anymore
 		wall_Image = t.getImage("Wall1.png"); //gets image for walls
