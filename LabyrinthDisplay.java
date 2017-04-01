@@ -117,7 +117,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		radius = (int)(square_width)*3; //only three surounding frames are visible
 		
 		//if(MASKING)Mask = new DistanceFilter(radius,SCREEN_WIDTH,SCREEN_HEIGHT,DIFFICULTY,step);//required for move(), linear gradient with initial offset
-		if(MASKING)Mask = new DistanceFilter(radius,SCREEN_WIDTH,SCREEN_HEIGHT,DIFFICULTY,0); //if using move2(), this is more elegant to look at
+		if(MASKING)Mask = new DistanceFilter(radius,SCREEN_WIDTH,SCREEN_HEIGHT,0); //if using move2(), this is more elegant to look at
 		
 		//remove cursor from screen
 			// Transparent 16 x 16 pixel cursor image.
@@ -302,7 +302,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	public static void main (String args[]) {
 		int difficulty=3;
 		int character = 1;
-		int wall = 2;
+		int wall = 5;
 		new LabyrinthDisplay(difficulty,character,wall);
 	}
 	
