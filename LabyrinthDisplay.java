@@ -150,11 +150,11 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 			for(int k=0;k<(int)(9*DIFFICULTY);k++){
 				if(MAP[k][i]==false){
 					//buff.setColor(new Color(0,0,0,127)); //50% transperent Black
-					buff.drawImage(wall_Image,(int)((double)i*square_width),(int)((double)k*square_height),(int)(square_width),(int)(square_height),this);
+					buff.drawImage(wall_Image,(int)((double)i*square_width),(int)((double)k*square_height),(int)(square_width)+2,(int)(square_height)+2,this);
 					
 				}else{
 					buff.setColor(new Color(255,255,255,255)); //100% transparent white
-					buff.fillRect((int)((double)i*square_width),(int)((double)k*square_height),(int)(square_width),(int)(square_height));
+					buff.fillRect((int)((double)i*square_width),(int)((double)k*square_height),(int)(square_width)+2,(int)(square_height)+2);
 				}
 				
 				
@@ -162,29 +162,12 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		}
 		
 		//paint player
-		//red dot
-		/*
-		buff.setColor(Color.RED);
-		buff.fillOval(player.x,player.y,20,20);
-		*/
-		//paint dark filer, still being tested...problem is that it is too complex, creates a start delay
-		
 		//image character
 		buff.drawImage(player.getImage(),player.x,player.y,player.width,player.height,this);
-		
-		//rotating image character, it is not workings
-		//player.draw(buff,this);
 
 		
 		
 		if(MASKING)buff.drawImage(Mask.getImage(),player.x-SCREEN_WIDTH+(player.width/2),player.y-SCREEN_HEIGHT+(player.height/2),this);//10 object dimensions
-		
-		/*
-		//FRAMES
-		buff.setColor(Color.GREEN);
-		buff.setFont(new Font("Arial", Font.BOLD, 40));
-		buff.drawString(Integer.toString(FPS),100,100);
-		*/
 		if(gameWon){
 			buff.setColor(Color.RED);
 			buff.setFont(new Font("Arial", Font.BOLD, SCREEN_HEIGHT/5));
