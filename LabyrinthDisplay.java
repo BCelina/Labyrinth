@@ -36,6 +36,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	private boolean MASKING = true; //set to false for testing since it takes 5s to launch the game
 	private DistanceFilter Mask;
 	private int radius;
+	Toolkit t = Toolkit.getDefaultToolkit(); //initiates toolkit for importing images
 	
 	//Timer parameters
 	private Timer myTimer;
@@ -51,8 +52,9 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	private Player player;
 	
 	//Esthetical details
-	private int DIFFICULTY =2;
-	private int Character=2;
+	private int DIFFICULTY;
+	private int Character;
+	private int WALL;
 	private int step;
 	
 	//Game state parameters
@@ -61,20 +63,21 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	
 	//Default Constructor for a standard game
 	public LabyrinthDisplay(){
-		this(3,2,true);
+		this(3,2,1,true);
 	}
 	//Constructor with Difficulty and Character choosing
-	public LabyrinthDisplay(int Diff, int Char){
-		this(Diff, Char, true);
+	public LabyrinthDisplay(int Diff, int Char,int Wall){
+		this(Diff, Char,Wall, true);
 	}
 	//Full Constructor
-	public LabyrinthDisplay(int Diff, int Char, boolean Vignette){
+	public LabyrinthDisplay(int Diff, int Char,int Wall, boolean Vignette){
 		//set Title of JFrame
 		super("LABYRINTH");
 		//set Game Parameters
 		DIFFICULTY=Diff;
 		Character = Char;
 		MASKING = Vignette;
+		WALL=Wall;
 		
 		getScreenSpecs(); //gets screen parameters
 		//SCREEN_HEIGHT=720; //set manually height resolution
@@ -87,7 +90,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		square_width=(((double)SCREEN_WIDTH)/(16.*((double)DIFFICULTY))); //calculates width of a square in pixels
 		square_height=(((double)SCREEN_HEIGHT)/(9.*((double)DIFFICULTY))); //calculates height of a square in pixels
 		
-		Toolkit t = Toolkit.getDefaultToolkit(); //initiates toolkit for importing images
+		
 		
 		//JFrame properties
 		this.setLayout(null);
@@ -102,7 +105,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 
 		
 		//background = t.getImage("Lab_Background_Pic.jpg");//gets image to be drawn in wallpaper, not used anymore
-		wall_Image = t.getImage("Wall1.png"); //gets image for walls
+		wall_Image = selectWall(Wall); //gets image for walls
 		
 		myTimer = new Timer(TPS_TIMER_MS,this);//set timer
 		time = 0; //set time
@@ -291,9 +294,18 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		y=(int)((double)y/square_height);
 		return MAP[y][x];
 	}
-	public static void main (String args[]) {
-		new LabyrinthDisplay();
+	private Image selectWall(int w){
+		if(w!=1 && w!=2 && w!=3 && w!=4 && w!=5)w=1; //if a wall that does not exist is entered
+		String s = "Wall"+w+".png";
+		return t.getImage(s);
 	}
+	public static void main (String args[]) {
+		int difficulty=3;
+		int character = 1;
+		int wall = 2;
+		new LabyrinthDisplay(difficulty,character,wall);
+	}
+	
 
 }
 
