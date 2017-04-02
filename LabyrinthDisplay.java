@@ -59,6 +59,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	//Game state parameters
 	private boolean [] keysPressed={false,false,false,false};
 	public boolean gameWon = false;
+	private boolean solution_shown = false;
 	
 	//Default Constructor for a standard game
 	public LabyrinthDisplay(){
@@ -250,9 +251,12 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 			player.dir=6;
 		}
 		else if(key== KeyEvent.VK_ENTER){
-			giveUp=true;//if enter was pressed, player gave up
-			map.solveMaze((int)((double)player.y/square_height),(int)((double)player.x/square_width));//solve Maze for the players current coordinates
-			solution = map.solution;//get solution
+			if(!solution_shown){
+				solution_shown=true;
+				giveUp=true;//if enter was pressed, player gave up
+				map.solveMaze((int)((double)player.y/square_height),(int)((double)player.x/square_width));//solve Maze for the players current coordinates
+				solution = map.solution;//get solution
+			}
 		}
 	}
 	public void keyTyped(KeyEvent e){//not used
@@ -293,7 +297,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		return t.getImage(s);
 	}
 	public static void main (String args[]) {
-		int difficulty=3;
+		int difficulty=2;
 		int character = 2;
 		int wall = 3;
 		int vis = 2;
