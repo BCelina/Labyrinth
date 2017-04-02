@@ -1,6 +1,17 @@
-import java.awt.*;
-import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JSlider;
+import java.awt.Image;
+import javax.swing.ImageIcon ;
+import java.awt.Color; //used in render and paint
+import java.awt.Font;
+import java.awt.Toolkit;
 
 public class Labyrinth extends JFrame implements ActionListener {
 	public static int[] tableaudeChoix = new int[4];
@@ -110,7 +121,7 @@ public class Labyrinth extends JFrame implements ActionListener {
 		Personnage=new JComboBox(personnagesTab);
 		Personnage.setBackground(Color.lightGray);
 		Personnage.setBounds(10,100,300,30);
-		Personnage.setSelectedIndex(0);
+		Personnage.setSelectedIndex(1);
 		Personnage.addActionListener(this);
 		conteneurPersonnage.add(Personnage);
 		
@@ -167,21 +178,33 @@ public class Labyrinth extends JFrame implements ActionListener {
 			begin=true;
 		}
 	}
-  
+
+
 	public static  void main (String args []){
-		new Labyrinth();
+		Labyrinth menu = new Labyrinth();
 		LabyrinthDisplay game = null;
-		while(game==null){
-			System.out.print("");
-			if(begin){
-				int diff =tableaudeChoix[1];
-				int chara = tableaudeChoix[0];
-				int wall = tableaudeChoix[2];
-				int vis = tableaudeChoix[3];
-				System.out.println(diff+" "+chara+" "+wall+" "+vis);
-				game = new LabyrinthDisplay(diff,chara,wall,vis);
+		while(true){
+			if(game==null){
+				System.out.print("");
+				if(begin){
+					int diff =tableaudeChoix[1];
+					int chara = tableaudeChoix[0];
+					int wall = tableaudeChoix[3];
+					int vis = tableaudeChoix[2];
+					game = new LabyrinthDisplay(diff,chara,wall,vis);
+					
+				}
+			}
+			else{
+				System.out.print("");
+				if(game.gameWon){
+					begin=false;
+					game.dispose();
+					game=null;
+				}
 			}
 		}
 	}
+
 }
 
