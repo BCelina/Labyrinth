@@ -26,9 +26,8 @@ import javax.swing.Timer;
 public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListener{
 	
 	//Main screen parameters
-	private static int SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_REFRESH, SCREEN_BIT_RATE;
+	private static int SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_REFRESH;
 	private BufferedImage buffer;
-	private Image background;
 	private Image wall_Image;
 	
 	//Vignette parameters (distanceFilter)
@@ -42,7 +41,6 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	private Timer myTimer;
 	private int TPS_TIMER_MS;
 	private int time;
-	private int FPS=0;
 	
 	//Game parameters such as Maze and player
 	private Maze map;
@@ -110,7 +108,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 
 		
 		//background = t.getImage("Lab_Background_Pic.jpg");//gets image to be drawn in wallpaper, not used anymore
-		wall_Image = selectWall(Wall); //gets image for walls
+		wall_Image = selectWall(WALL); //gets image for walls
 		
 		myTimer = new Timer(TPS_TIMER_MS,this);//set timer
 		time = 0; //set time
@@ -151,20 +149,18 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	private static void getScreenSpecs(){ //gets all screen specs
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();//get graphics environment to analyse
 		GraphicsDevice[] devices = env.getScreenDevices();
-		int sequence = 1;
+		//int sequence = 1;
 		for (GraphicsDevice device : devices) {
             
             SCREEN_WIDTH = device.getDisplayMode().getWidth();
 			SCREEN_HEIGHT = device.getDisplayMode().getHeight();
 			SCREEN_REFRESH = device.getDisplayMode().getRefreshRate();
-			SCREEN_BIT_RATE = device.getDisplayMode().getBitDepth();
         }
 		
 	}
 	public void actionPerformed(ActionEvent e){//the game steps for each frame
 		time += TPS_TIMER_MS;
         //simulateGame();
-        FPS++;//Frames displayed
         move2();//move the player if the user has pressed a button, relative to the game
         render();//render the display
         repaint();//paint the rendered display
@@ -176,8 +172,6 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	public void render(){ //render graphics to be painted on the screen for the current state, render is done is sequential layers
 		
 		Graphics buff = buffer.getGraphics();//start graphics render window
-		
-		//buff.drawImage(background,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,this);//renders an initial wallpaper
 		
 		//render maze
 		for(int i=0;i<(int)(16*DIFFICULTY);i++){ //paint rectangles in 16:9 aspect ratio
@@ -205,13 +199,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		
 		//draw vignette using distanceFilter only if MASKING is enabled and player is still playing
 		if(MASKING && !giveUp)buff.drawImage(Mask.getImage(),player.x-SCREEN_WIDTH+(player.width/2),player.y-SCREEN_HEIGHT+(player.height/2),this);
-		
-		/*
-		//FRAMES, to check how many frames are being displayed, for testing purposes
-		buff.setColor(Color.GREEN);
-		buff.setFont(new Font("Arial", Font.BOLD, 40));
-		buff.drawString(Integer.toString(FPS),100,100);
-		*/
+
 		//Draw Game over message
 		if(gameWon){
 			buff.setColor(Color.RED);
@@ -305,9 +293,9 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 		return t.getImage(s);
 	}
 	public static void main (String args[]) {
-		int difficulty=5;
-		int character = 3;
-		int wall = 4;
+		int difficulty=3;
+		int character = 2;
+		int wall = 3;
 		int vis = 2;
 		new LabyrinthDisplay(difficulty,character,wall,vis);
 	}

@@ -1,30 +1,8 @@
-/*
- * Player.java
- * 
- * Copyright 2017 bedre <bedre@BCAAV15BE>
- * 
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
- * 
- * 
- */
+//Importing only necessairy libraries:
 
-import java.awt.image.*;//Image
-import java.awt.*;//Toolkit, to import image
-import java.awt.geom.AffineTransform;//Rotation
-import javax.swing.*;//draw
+import java.awt.image.BufferedImage;//Image
+import java.awt.Toolkit;//Toolkit, to import image
+import java.awt.Image;
 
 public class Player { //implement player dimensions
 	
@@ -46,14 +24,14 @@ public class Player { //implement player dimensions
 	public Player(int X, int Y,int w, int h, int character){
 		this(X,Y,w,h,6,character);
 	}
-	private void setCharacter(int k){
+	private void setCharacter(int k){ //set the desired character
 		if(k==1)setimage("Character1");
 		else if(k==2)setimage("Character2");
 		else if(k==3)setimage("Character3");
 		else setimage("Character1"); //a default image if somebody wants a Character that doesnt exist
 		//image = image.getScaledInstance(width,height,Image.SCALE_SMOOTH);
 	}
-	private void setimage(String s){
+	private void setimage(String s){ //set images for all directions
 		Toolkit t = Toolkit.getDefaultToolkit();
 		//get images for all directions
 		image_right = t.getImage(s+"_right"+".png");
@@ -63,13 +41,13 @@ public class Player { //implement player dimensions
 		
 		setCurrentImage();
 	}
-	private void setCurrentImage(){
+	private void setCurrentImage(){ //set current image depending on direction
 		if(dir==6) image_current = image_right;
 		else if(dir==4) image_current = image_left;
 		else if(dir==2) image_current = image_down;
 		else if(dir==8) image_current = image_up;
 	}
-	public Image getImage(){
+	public Image getImage(){ //return the current image
 		setCurrentImage();
 		return image_current;
 	}

@@ -27,7 +27,6 @@ public class DistanceFilter {
 	private BufferedImage graphics;
 	private Graphics2D ig2;
 	private static int SCREEN_HEIGHT, SCREEN_WIDTH;
-	private int DIFFICULTY;
 	
 	
 	public DistanceFilter(int D2, int sw, int sh, int D1){
