@@ -80,7 +80,7 @@ public class Maze{
 	
 	public boolean solve(int x, int y){ //find a solution by using backtracking
 		if (x<0 || y<0 || x>=maze.length || y>=maze[0].length) return false;
-		if (y==maze[0].length-1) {sol[x][y]='+'; return true;}
+		if ((y==maze[0].length-1)&&(maze[x][y])) {sol[x][y]='+'; return true;}
 		if (!maze[x][y] || sol[x][y]=='x' || sol[x][y]=='+') return false;
 		sol[x][y]='+'; //mark the cell to the solution
 		if (solve(x,y+1)) return true; //try right
