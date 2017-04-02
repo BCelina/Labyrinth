@@ -17,7 +17,7 @@ Controls to play:
   Enter - give up, show solution;
 
 
-Check LabyrinthGame.pdf or LabyrinthGame.docx for the documentation.
+Check LabyrinthGame.pdf for the documentation.
 
 Check code for details.
 
