@@ -58,7 +58,7 @@ public class LabyrinthDisplay extends JFrame implements ActionListener, KeyListe
 	
 	//Game state parameters
 	private boolean [] keysPressed={false,false,false,false};
-	private boolean gameWon = false;
+	public boolean gameWon = false;
 	
 	//Default Constructor for a standard game
 	public LabyrinthDisplay(){
