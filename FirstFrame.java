@@ -2,7 +2,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 public class FirstFrame extends JFrame implements ActionListener {
-	public int[] tableaudeChoix = new int[4];
+	public static int[] tableaudeChoix = new int[4];
 	private JComboBox Personnage;
 	private JComboBox Wall;
 	private JSlider difficulty;
@@ -170,7 +170,11 @@ public class FirstFrame extends JFrame implements ActionListener {
   
 	public static  void main (String args []){
 		new FirstFrame();
-		new LabyrinthDisplay(this.tableaudeChoix[1],this.tableaudeChoix[0],this.tableaudeChoix[3],this.tableaudeChoix[2]);
+		int diff =tableaudeChoix[1];
+		int chara = tableaudeChoix[0];
+		int wall = tableaudeChoix[2];
+		int vis = tableaudeChoix[3];
+		new LabyrinthDisplay(diff,chara,wall,vis);
 		
 	}
 
