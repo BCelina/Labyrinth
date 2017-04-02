@@ -1,114 +1,91 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-
-
 public class FirstFrame extends JFrame implements ActionListener {
-			
-	private static int SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_REFRESH, SCREEN_BIT_RATE;
-	private int[] tableaudeChoix = new int[2];
+	public int[] tableaudeChoix = new int[4];
 	private JComboBox Personnage;
-	private JSlider difficulty;	
+	private JComboBox Wall;
+	private JSlider difficulty;
+	private JSlider visibility;	
 	private Image background1; // background
-	
 	private Toolkit t = Toolkit.getDefaultToolkit(); //initiates toolkit for importing images
-
-	
-
 	public FirstFrame(){
-		//getScreenSpecs();
 		this.setLayout(null);
 		this.setTitle("LABYRINTH");
 		this.setIconImage(t.getImage("Labyrinth.png")); //the icon of the game
 		this.setSize(800,600);
-		System.out.println(SCREEN_WIDTH+" "+SCREEN_HEIGHT);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);//centered screen
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		//CONTENEUR PRINCIPAL
+		//PRINCIPAL CONTAINER- everything will be added to it
 		JPanel conteneur= new JPanel();
 		conteneur.setLayout(null);
-		conteneur.setBounds(0,0,800,600); //occue toute la fenetre
-		//conteneur.setOpaque(false);
-		//JLabel Fond = new JLabel(new ImageIcon("Lab_Background_Pic.jpg"));
-		//Fond.setBounds(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
-		//conteneur.add(Fond);
-		
-		
-		
-		//conteneur message 
-		
-		JPanel conteneurMessage= new JPanel();
+		conteneur.setBounds(0,0,800,600); //take all the window
+		conteneur.setOpaque(false);
+		// PRINCIPAL MESSAGE
+		JPanel conteneurMessage= new JPanel();//container for the principal message
 		conteneurMessage.setLayout(null);
-		conteneurMessage.setBounds(300,50,240,140);// milieu de la fenettre en haut
-		JLabel cadre = new JLabel(new ImageIcon("cadre.png"));
-		cadre.setBounds(-5,-2,250,150);
-		
-		JLabel message = new JLabel("GET READY TO BE A-MAZED",JLabel.CENTER);
-		message.setBounds(-5,0,250,150);// le message ocupe tout le conteneur message
-		message.setFont(new Font("Chaparral Pro Lite", Font.BOLD, 13));
-		//conteneurMessage.setOpaque(false);
-		
+		conteneurMessage.setBounds(300,20,240,140);// to of the window
+		JLabel cadre = new JLabel(new ImageIcon("cadre.png"));// decoration for the message
+		cadre.setBounds(-5,-2,250,150);// negative boundaries to compensate a small error on the image
+		JLabel message = new JLabel("GET READY TO BE A-MAZED",JLabel.CENTER);//principal message
+		message.setBounds(-5,0,250,150);
+		message.setFont(new Font("Chaparral Pro Lite", Font.BOLD, 13));//we choose special characters and we adapt the size
+		conteneurMessage.setBackground(Color.lightGray);
 		conteneurMessage.add(cadre);
-		conteneurMessage.add(message); // on ajoute le message au conteneur		
-				
-
-		//barre de dificultés
-				
-		
-		JPanel conteneurDiff= new JPanel();
+		conteneurMessage.add(message); 			
+		//DIFFICULTY BAR-we are going to use a Jsider to catch the user choice of difficulty
+		JPanel conteneurDiff= new JPanel();//container for the difficulty bar and message
 		conteneurDiff.setLayout(null);
-		conteneurDiff.setBounds(0,200,400,200);// on le place en dessous du conteneur du message et occupe la moitie de la largeur de la fenetre
-		
-		
-
-
-		
+		conteneurDiff.setBounds(0,170,400,200);
 		difficulty = new JSlider(JSlider.HORIZONTAL, 0,5 ,3); /*(posición vertical, comienza, termina, donde comienza al iniciar programa)*/
-		difficulty.setBackground(Color.black);
+		difficulty.setOpaque(false);
 		difficulty.setInverted(false); 
 		difficulty.setPaintTicks(true); //las rayitas que marcan los números
 		difficulty.setMajorTickSpacing(1); // de cuanto en cuanto los números en el slider
 		difficulty.setMinorTickSpacing(5); //las rayitas de cuanto en cuanto
 		difficulty.setPaintLabels(true); //si se ve los números del slider
-		difficulty.setBounds(15,75,400-30,200-100);
-		//difficulty.setOpaque(false);
-		
-		
-		
+		difficulty.setBounds(15,100,400-30,200-100);
 		JLabel messageDificulty = new JLabel("Difficulty");
-		messageDificulty.setBounds(170,10,200,100);
+		messageDificulty.setBounds(170,0,200,100);
 		messageDificulty.setFont(new Font("Chaparral Pro Lite", Font.BOLD, 20));
 		messageDificulty.setForeground(new Color(227,210,25,100));
-		//messageDificulty.setOpaque(false);
 		conteneurDiff.setBackground(Color.black);
-		//conteneurDiff.setOpaque(false);
+		conteneurDiff.setOpaque(false);
 		conteneurDiff.add(messageDificulty);
-		
-		// un JSlider va servir a renvoyer le niveau de difficulte choisit par que l'utilisateur 
-		
-
-		
 		conteneurDiff.add(messageDificulty);
 		conteneurDiff.add(difficulty);
-		
-		
+		//VISIBILITY BAR
+		JPanel conteneurVis= new JPanel();//container for the difficulty bar and message
+		conteneurVis.setLayout(null);
+		conteneurVis.setBounds(5,370,400,200);
+		visibility= new JSlider(JSlider.HORIZONTAL, 0,5 ,3); /*(posición vertical, comienza, termina, donde comienza al iniciar programa)*/
+		visibility.setOpaque(false);
+		visibility.setInverted(false); 
+		visibility.setPaintTicks(true); //las rayitas que marcan los números
+		visibility.setMajorTickSpacing(1); // de cuanto en cuanto los números en el slider
+		visibility.setMinorTickSpacing(5); //las rayitas de cuanto en cuanto
+		visibility.setPaintLabels(true); //si se ve los números del slider
+		visibility.setBounds(10,75,400-30,200-100);
+		JLabel messageVisibility = new JLabel("Visibility");
+		messageVisibility.setBounds(150,0,200,100);
+		messageVisibility.setFont(new Font("Chaparral Pro Lite", Font.BOLD, 20));
+		messageVisibility.setForeground(new Color(200,210,25,100));
+		conteneurVis.setOpaque(false);
+		conteneurVis.add(messageVisibility);
+		conteneurVis.add(messageVisibility);
+		conteneurVis.add(visibility);
+		//CHARACTER-we are going to use a JComboBox to catch the user choice of character
 		JPanel conteneurPersonnage= new JPanel();
 		conteneurPersonnage.setLayout(null);
-		conteneurPersonnage.setBounds(400,200,400,200);// on le place en dessous du conteneur du message et occupe la moitie de la largeur de la fenetre
-		
+		conteneurPersonnage.setBounds(450,170,400,400);// on le place en dessous du conteneur du message et occupe la moitie de la largeur de la fenetre
+		conteneurPersonnage.setOpaque(false);
 		JLabel messagePersonnage = new JLabel("Choose your favorite character!");
-		messagePersonnage.setBounds(10,10,200,100);
+		messagePersonnage.setBounds(10,10,400,100);
 		conteneurPersonnage.add(messagePersonnage);
-		
 		messagePersonnage.setFont(new Font("Chaparral Pro Lite", Font.BOLD, 20));
 		messagePersonnage.setForeground(new Color(227,210,25,100));
-		//conteneurPersonnage.setOpaque(false);
-		
 		// un JComboBox va servir au choix du personnage 
-
-
 		String[] personnagesTab = new String[3];
 		ImageIcon[] imagesTab = new ImageIcon[3];
 		personnagesTab[0]="Girl";
@@ -118,48 +95,51 @@ public class FirstFrame extends JFrame implements ActionListener {
 		personnagesTab[2]= "Godzilla";
 		imagesTab[2]=new ImageIcon("Character3_Right.png");
 		Personnage=new JComboBox(personnagesTab);
-		//Personnage=new JComboBox(imagesTab);
+		Personnage.setBackground(Color.lightGray);
 		Personnage.setBounds(10,100,300,100);
-		Personnage.setBackground(Color.black);
 		Personnage.setSelectedIndex(0);
 		Personnage.addActionListener(this);
-
 		conteneurPersonnage.add(Personnage);
-
-		
-	
+			
+			
+				//WALL-we are going to use a JComboBox to catch the user choice of Wall
+		JPanel conteneurWall= new JPanel();
+		conteneurWall.setLayout(null);
+		conteneurWall.setBounds(450,350,400,400);
+		conteneurWall.setOpaque(false);
+		JLabel messageWall = new JLabel("Choose your favorite wall!");
+		messageWall.setBounds(10,10,400,100);
+		messageWall.setFont(new Font("Chaparral Pro Lite", Font.BOLD, 20));
+		messageWall.setForeground(new Color(227,210,25,100));
+		String[] wallTab = new String[5];
+		wallTab[0]="1";
+		wallTab[1]= "2";
+		wallTab[2]= "3";
+		wallTab[3]= "4";
+		wallTab[4]= "5";
+		Wall=new JComboBox(wallTab);
+		Wall.setBackground(Color.lightGray);
+		Wall.setBounds(10,100,300,100);
+		Wall.setSelectedIndex(0);
+		Wall.addActionListener(this);
+		conteneurWall.add(Wall);
+		conteneurWall.add(messageWall);
+			//we add everything to the principal container
 		conteneur.add(conteneurDiff);
 		conteneur.add(conteneurMessage);
+		conteneur.add(conteneurVis);
 		conteneur.add(conteneurPersonnage);
-		
-		
+		conteneur.add(conteneurWall);
 		setContentPane(conteneur);
-		
+			//background image
+		JLabel Fond = new JLabel(new ImageIcon("Lab_Background_Pic.jpg"));
+		Fond.setBounds(0,0,800,600);
+		conteneur.add(Fond);
 		this.setVisible(true);
-		
-
-
-    
-
     }
-    	private static void getScreenSpecs(){ //gets all screen specs
-		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();//get graphics environment to analyse
-		GraphicsDevice[] devices = env.getScreenDevices();
-		int sequence = 1;
-		for (GraphicsDevice device : devices) {
-            
-            SCREEN_WIDTH = device.getDisplayMode().getWidth();
-			SCREEN_HEIGHT = device.getDisplayMode().getHeight();
-			SCREEN_REFRESH = device.getDisplayMode().getRefreshRate();
-			SCREEN_BIT_RATE = device.getDisplayMode().getBitDepth();
-        }
-		
-	}
-	
 	public void actionPerformed (ActionEvent e){
 			
-		//personnage choisi par l'utilisteur
-		
+		//choosen character
 		Object X =Personnage.getSelectedItem();
 		if(X=="Girl"){
 			tableaudeChoix[0]=1;
@@ -168,26 +148,29 @@ public class FirstFrame extends JFrame implements ActionListener {
 		}else if(X=="Gotsila"){
 			tableaudeChoix[0]=3;
 		}
-		tableaudeChoix[1]= difficulty.getValue();
-		System.out.println("choosen character"+tableaudeChoix[0]+"choosen dificulty"+tableaudeChoix[1]);
+		tableaudeChoix[1]= difficulty.getValue();//choosen difficulty
+		tableaudeChoix[2]=visibility.getValue();//choosen visibility
+		//choosen wall
+		Object Y =Wall.getSelectedItem();
+		if(Y=="1"){
+			tableaudeChoix[3]=1;
+		}else if(Y=="2"){
+			tableaudeChoix[3]=2;
+		}else if(Y=="3"){
+			tableaudeChoix[3]=3;
+		}else if(Y=="4"){
+			tableaudeChoix[3]=4;
+		}else if(Y=="5"){
+			tableaudeChoix[3]=5;
+		}
 		
-		/*
-		JCombobox character = (JCombobox)e.getSource();
-		image 
-		* */
 	
 	}
-
-	  /**  public void paint(Graphics g){
-        g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), this);
-        g.setOpaque(False);
-        super.paint(g);**/
-		
-		
+	
   
 	public static  void main (String args []){
 		new FirstFrame();
-		
+		new LabyrinthDisplay(this.tableaudeChoix[1],this.tableaudeChoix[0],this.tableaudeChoix[3],this.tableaudeChoix[2]);
 		
 	}
 
