@@ -29,7 +29,7 @@ public class Labyrinth extends JFrame implements ActionListener {
 		
 		JPanel conteneurMessage= new JPanel();//container for the principal message
 		conteneurMessage.setLayout(null);
-		conteneurMessage.setBounds(300,20,240,140);// to of the window
+		conteneurMessage.setBounds(300,20,240,140);// window
 		JLabel cadre = new JLabel(new ImageIcon("cadre.png"));// decoration for the message
 		cadre.setBounds(-5,-2,250,150);// negative boundaries to compensate a small error on the image
 		JLabel message = new JLabel("GET READY TO BE A-MAZED",JLabel.CENTER);//principal message
@@ -43,13 +43,13 @@ public class Labyrinth extends JFrame implements ActionListener {
 		start.setBounds(600,80,80,80);
 		start.setFont(new Font("Chaparral Pro Lite", Font.BOLD, 13));
 		start.setBackground(Color.black);
-		start.setForeground(new Color(200,210,25,100));
+		start.setForeground(new Color(227,255,255,255));
 		start.addActionListener(this);
 		
 		JPanel conteneurDiff= new JPanel();//container for the difficulty bar and message
 		conteneurDiff.setLayout(null);
 		conteneurDiff.setBounds(0,170,400,200);
-		difficulty = new JSlider(JSlider.HORIZONTAL, 1,5 ,3);
+		difficulty = new JSlider(JSlider.HORIZONTAL, 1, 5, 3);
 		difficulty.setOpaque(false);
 		difficulty.setInverted(false); 
 		difficulty.setPaintTicks(true);
@@ -62,7 +62,7 @@ public class Labyrinth extends JFrame implements ActionListener {
 		JLabel messageDificulty = new JLabel("Difficulty");
 		messageDificulty.setBounds(170,0,200,100);
 		messageDificulty.setFont(new Font("Chaparral Pro Lite", Font.BOLD, 20));
-		messageDificulty.setForeground(new Color(227,210,25,100));
+		messageDificulty.setForeground(new Color(227,255,255,255));
 		conteneurDiff.setBackground(Color.black);
 		conteneurDiff.setOpaque(false);
 		conteneurDiff.add(messageDificulty);
@@ -84,7 +84,7 @@ public class Labyrinth extends JFrame implements ActionListener {
 		JLabel messageVisibility = new JLabel("Visibility");
 		messageVisibility.setBounds(150,0,200,100);
 		messageVisibility.setFont(new Font("Chaparral Pro Lite", Font.BOLD, 20));
-		messageVisibility.setForeground(new Color(200,210,25,100));
+		messageVisibility.setForeground(new Color(227,255,255,255));
 		conteneurVis.setOpaque(false);
 		conteneurVis.add(messageVisibility);
 		conteneurVis.add(messageVisibility);
@@ -98,7 +98,7 @@ public class Labyrinth extends JFrame implements ActionListener {
 		messagePersonnage.setBounds(10,10,400,100);
 		conteneurPersonnage.add(messagePersonnage);
 		messagePersonnage.setFont(new Font("Chaparral Pro Lite", Font.BOLD, 20));
-		messagePersonnage.setForeground(new Color(227,210,25,100));
+		messagePersonnage.setForeground(new Color(227,255,255,255));
 		String[] personnagesTab = new String[3]; //setting up the chracaters
 		ImageIcon[] imagesTab = new ImageIcon[3];
 		personnagesTab[0]="Girl";
@@ -109,7 +109,7 @@ public class Labyrinth extends JFrame implements ActionListener {
 		imagesTab[2]=new ImageIcon("Character3_Right.png");
 		Personnage=new JComboBox(personnagesTab);
 		Personnage.setBackground(Color.lightGray);
-		Personnage.setBounds(10,100,300,100);
+		Personnage.setBounds(10,100,300,30);
 		Personnage.setSelectedIndex(1);
 		Personnage.addActionListener(this);
 		conteneurPersonnage.add(Personnage);
@@ -121,7 +121,7 @@ public class Labyrinth extends JFrame implements ActionListener {
 		JLabel messageWall = new JLabel("Choose your favorite wall!");
 		messageWall.setBounds(10,10,400,100);
 		messageWall.setFont(new Font("Chaparral Pro Lite", Font.BOLD, 20));
-		messageWall.setForeground(new Color(227,210,25,100));
+		messageWall.setForeground(new Color(227,255,255,255));
 		String[] wallTab = new String[5];
 		wallTab[0]="1";
 		wallTab[1]= "2";
@@ -130,7 +130,7 @@ public class Labyrinth extends JFrame implements ActionListener {
 		wallTab[4]= "5";
 		Wall=new JComboBox(wallTab);
 		Wall.setBackground(Color.lightGray);
-		Wall.setBounds(10,100,300,100);
+		Wall.setBounds(10,100,300,30);
 		Wall.setSelectedIndex(0);
 		Wall.addActionListener(this);
 		
