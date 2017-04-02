@@ -121,7 +121,7 @@ public class Labyrinth extends JFrame implements ActionListener {
 		Personnage=new JComboBox(personnagesTab);
 		Personnage.setBackground(Color.lightGray);
 		Personnage.setBounds(10,100,300,30);
-		Personnage.setSelectedIndex(1);
+		Personnage.setSelectedIndex(0);
 		Personnage.addActionListener(this);
 		conteneurPersonnage.add(Personnage);
 		
