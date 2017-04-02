@@ -1,3 +1,3 @@
 # Labyrinth
 
-Compile LabyrinthDisplay.java and then run it. 
+Compile *.java and then run LabyrinthDisplay. 
