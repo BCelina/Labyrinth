@@ -3,6 +3,8 @@ import javax.swing.*;
 import java.awt.event.*;
 public class FirstFrame extends JFrame implements ActionListener {
 	public static int[] tableaudeChoix = new int[4];
+	private JButton start;
+	public static boolean begin=false;
 	private JComboBox Personnage;
 	private JComboBox Wall;
 	private JSlider difficulty;
@@ -33,7 +35,16 @@ public class FirstFrame extends JFrame implements ActionListener {
 		message.setFont(new Font("Chaparral Pro Lite", Font.BOLD, 13));//we choose special characters and we adapt the size
 		conteneurMessage.setBackground(Color.lightGray);
 		conteneurMessage.add(cadre);
-		conteneurMessage.add(message); 			
+		conteneurMessage.add(message);
+		//Start Button
+		start = new JButton("start"); 
+		start.setBounds(600,80,80,80);
+		start.setFont(new Font("Chaparral Pro Lite", Font.BOLD, 13));
+		start.setBackground(Color.black);
+		start.setForeground(new Color(200,210,25,100));
+		start.addActionListener(this);
+		
+					
 		//DIFFICULTY BAR-we are going to use a Jsider to catch the user choice of difficulty
 		JPanel conteneurDiff= new JPanel();//container for the difficulty bar and message
 		conteneurDiff.setLayout(null);
@@ -130,6 +141,7 @@ public class FirstFrame extends JFrame implements ActionListener {
 		conteneur.add(conteneurVis);
 		conteneur.add(conteneurPersonnage);
 		conteneur.add(conteneurWall);
+		conteneur.add(start);
 		setContentPane(conteneur);
 			//background image
 		JLabel Fond = new JLabel(new ImageIcon("Lab_Background_Pic.jpg"));
@@ -163,7 +175,9 @@ public class FirstFrame extends JFrame implements ActionListener {
 		}else if(Y=="5"){
 			tableaudeChoix[3]=5;
 		}
-		
+		if(e.getActionCommand().equals(start)){
+			begin=true;
+		}
 	
 	}
 	
@@ -174,8 +188,9 @@ public class FirstFrame extends JFrame implements ActionListener {
 		int chara = tableaudeChoix[0];
 		int wall = tableaudeChoix[2];
 		int vis = tableaudeChoix[3];
-		new LabyrinthDisplay(diff,chara,wall,vis);
-		
+		if(begin == true){
+			new LabyrinthDisplay(diff,chara,wall,vis);
+		}
 	}
 
 }
