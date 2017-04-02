@@ -10,8 +10,9 @@ public class Labyrinth extends JFrame implements ActionListener {
 	private JComboBox Wall;
 	private JSlider difficulty;
 	private JSlider visibility;	
-	private Image background1; // background
-	private Toolkit t = Toolkit.getDefaultToolkit(); //initiates toolkit for importing images
+	private Image background1;
+	private Toolkit t = Toolkit.getDefaultToolkit(); //initializes toolkit for importing images
+	
 	public Labyrinth(){
 		this.setLayout(null);
 		this.setTitle("LABYRINTH");
@@ -20,12 +21,12 @@ public class Labyrinth extends JFrame implements ActionListener {
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);//centered screen
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//PRINCIPAL CONTAINER- everything will be added to it
-		JPanel conteneur= new JPanel();
+		
+		JPanel conteneur= new JPanel(); //main container
 		conteneur.setLayout(null);
 		conteneur.setBounds(0,0,800,600); //take all the window
 		conteneur.setOpaque(false);
-		// PRINCIPAL MESSAGE
+		
 		JPanel conteneurMessage= new JPanel();//container for the principal message
 		conteneurMessage.setLayout(null);
 		conteneurMessage.setBounds(300,20,240,140);// to of the window
@@ -37,29 +38,26 @@ public class Labyrinth extends JFrame implements ActionListener {
 		conteneurMessage.setBackground(Color.lightGray);
 		conteneurMessage.add(cadre);
 		conteneurMessage.add(message);
-		//Start Button
-		start = new JButton("Start"); 
+		
+		start = new JButton("Start"); //start button
 		start.setBounds(600,80,80,80);
 		start.setFont(new Font("Chaparral Pro Lite", Font.BOLD, 13));
 		start.setBackground(Color.black);
 		start.setForeground(new Color(200,210,25,100));
 		start.addActionListener(this);
 		
-					
-		//DIFFICULTY BAR-we are going to use a Jsider to catch the user choice of difficulty
 		JPanel conteneurDiff= new JPanel();//container for the difficulty bar and message
 		conteneurDiff.setLayout(null);
 		conteneurDiff.setBounds(0,170,400,200);
-		difficulty = new JSlider(JSlider.HORIZONTAL, 1,5 ,3); /*(posición vertical, comienza, termina, donde comienza al iniciar programa)*/
+		difficulty = new JSlider(JSlider.HORIZONTAL, 1,5 ,3);
 		difficulty.setOpaque(false);
 		difficulty.setInverted(false); 
-		difficulty.setPaintTicks(true); //las rayitas que marcan los números
-		difficulty.setMajorTickSpacing(1); // de cuanto en cuanto los números en el slider
-		difficulty.setMinorTickSpacing(5); //las rayitas de cuanto en cuanto
-		difficulty.setPaintLabels(true); //si se ve los números del slider
+		difficulty.setPaintTicks(true);
+		difficulty.setMajorTickSpacing(1);
+		difficulty.setMinorTickSpacing(5);
+		difficulty.setPaintLabels(true);
 		difficulty.setBounds(15,100,400-30,200-100);
 		difficulty.setValue(3);
-		
 		
 		JLabel messageDificulty = new JLabel("Difficulty");
 		messageDificulty.setBounds(170,0,200,100);
@@ -69,17 +67,17 @@ public class Labyrinth extends JFrame implements ActionListener {
 		conteneurDiff.setOpaque(false);
 		conteneurDiff.add(messageDificulty);
 		conteneurDiff.add(difficulty);
-		//VISIBILITY BAR
-		JPanel conteneurVis= new JPanel();//container for the difficulty bar and message
+		
+		JPanel conteneurVis= new JPanel();//container for the visibility bar and message
 		conteneurVis.setLayout(null);
 		conteneurVis.setBounds(5,370,400,200);
-		visibility= new JSlider(JSlider.HORIZONTAL, 1,3 ,3); /*(posición vertical, comienza, termina, donde comienza al iniciar programa)*/
+		visibility= new JSlider(JSlider.HORIZONTAL, 1, 3, 3);
 		visibility.setOpaque(false);
 		visibility.setInverted(false); 
-		visibility.setPaintTicks(true); //las rayitas que marcan los números
-		visibility.setMajorTickSpacing(1); // de cuanto en cuanto los números en el slider
-		visibility.setMinorTickSpacing(5); //las rayitas de cuanto en cuanto
-		visibility.setPaintLabels(true); //si se ve los números del slider
+		visibility.setPaintTicks(true);
+		visibility.setMajorTickSpacing(1);
+		visibility.setMinorTickSpacing(5);
+		visibility.setPaintLabels(true);
 		visibility.setBounds(10,75,400-30,200-100);
 		visibility.setValue(2);
 		
@@ -91,18 +89,17 @@ public class Labyrinth extends JFrame implements ActionListener {
 		conteneurVis.add(messageVisibility);
 		conteneurVis.add(messageVisibility);
 		conteneurVis.add(visibility);
-		//CHARACTER-we are going to use a JComboBox to catch the user choice of character
-		JPanel conteneurPersonnage= new JPanel();
+		
+		JPanel conteneurPersonnage= new JPanel(); //CHARACTER-we are going to use a JComboBox to catch the user choice of character
 		conteneurPersonnage.setLayout(null);
-		conteneurPersonnage.setBounds(450,170,400,400);// on le place en dessous du conteneur du message et occupe la moitie de la largeur de la fenetre
+		conteneurPersonnage.setBounds(450,170,400,400);// we're putting it under the container of the message
 		conteneurPersonnage.setOpaque(false);
 		JLabel messagePersonnage = new JLabel("Choose your favorite character!");
 		messagePersonnage.setBounds(10,10,400,100);
 		conteneurPersonnage.add(messagePersonnage);
 		messagePersonnage.setFont(new Font("Chaparral Pro Lite", Font.BOLD, 20));
 		messagePersonnage.setForeground(new Color(227,210,25,100));
-		// un JComboBox va servir au choix du personnage 
-		String[] personnagesTab = new String[3];
+		String[] personnagesTab = new String[3]; //setting up the chracaters
 		ImageIcon[] imagesTab = new ImageIcon[3];
 		personnagesTab[0]="Girl";
 		imagesTab[0]= new ImageIcon("Character1_Right.png");
@@ -115,12 +112,9 @@ public class Labyrinth extends JFrame implements ActionListener {
 		Personnage.setBounds(10,100,300,100);
 		Personnage.setSelectedIndex(1);
 		Personnage.addActionListener(this);
-		//Personnage.setValue(1);
 		conteneurPersonnage.add(Personnage);
-			
-			
-				//WALL-we are going to use a JComboBox to catch the user choice of Wall
-		JPanel conteneurWall= new JPanel();
+		
+		JPanel conteneurWall= new JPanel(); //WALL-we are going to use a JComboBox to catch the user choice of Wall
 		conteneurWall.setLayout(null);
 		conteneurWall.setBounds(450,350,400,400);
 		conteneurWall.setOpaque(false);
@@ -139,9 +133,9 @@ public class Labyrinth extends JFrame implements ActionListener {
 		Wall.setBounds(10,100,300,100);
 		Wall.setSelectedIndex(0);
 		Wall.addActionListener(this);
-		conteneurWall.add(Wall);
+		
+		conteneurWall.add(Wall); //we add everything to the principal container
 		conteneurWall.add(messageWall);
-			//we add everything to the principal container
 		conteneur.add(conteneurDiff);
 		conteneur.add(conteneurMessage);
 		conteneur.add(conteneurVis);
@@ -149,8 +143,8 @@ public class Labyrinth extends JFrame implements ActionListener {
 		conteneur.add(conteneurWall);
 		conteneur.add(start);
 		setContentPane(conteneur);
-			//background image
-		JLabel Fond = new JLabel(new ImageIcon("Lab_Background_Pic.jpg"));
+		
+		JLabel Fond = new JLabel(new ImageIcon("Lab_Background_Pic.jpg")); //background image
 		Fond.setBounds(0,0,800,600);
 		conteneur.add(Fond);
 		this.setVisible(true);
@@ -158,32 +152,19 @@ public class Labyrinth extends JFrame implements ActionListener {
 	public void actionPerformed (ActionEvent e){
 			
 		if(e.getSource()==start){
-			
-			//choosen character
-		Object X =Personnage.getSelectedItem();
-		if(X=="Girl"){
-			tableaudeChoix[0]=2;
-		}else if(X=="Boy"){
-			tableaudeChoix[0]=1;
-		}else if(X=="Godzilla"){
-			tableaudeChoix[0]=3;
-		}
-		tableaudeChoix[1]= difficulty.getValue();//choosen difficulty
-		tableaudeChoix[2]=visibility.getValue();//choosen visibility
-		//choosen wall
-		Object Y =Wall.getSelectedItem();
-		if(Y=="1"){
-			tableaudeChoix[3]=1;
-		}else if(Y=="2"){
-			tableaudeChoix[3]=2;
-		}else if(Y=="3"){
-			tableaudeChoix[3]=3;
-		}else if(Y=="4"){
-			tableaudeChoix[3]=4;
-		}else if(Y=="5"){
-			tableaudeChoix[3]=5;
-		}
-		begin=true;
+			Object X =Personnage.getSelectedItem(); //choosen character
+			if(X=="Girl") tableaudeChoix[0]=2;
+			else if(X=="Boy") tableaudeChoix[0]=1;
+			else if(X=="Godzilla") tableaudeChoix[0]=3;
+			tableaudeChoix[1]= difficulty.getValue();//choosen difficulty
+			tableaudeChoix[2]=visibility.getValue();//choosen visibility
+			Object Y =Wall.getSelectedItem(); //choosen wall
+			if(Y=="1") tableaudeChoix[3]=1;
+			else if(Y=="2") tableaudeChoix[3]=2;
+			else if(Y=="3") tableaudeChoix[3]=3;
+			else if(Y=="4") tableaudeChoix[3]=4;
+			else if(Y=="5") tableaudeChoix[3]=5;
+			begin=true;
 		}
 		
 		
@@ -194,7 +175,8 @@ public class Labyrinth extends JFrame implements ActionListener {
 	public static  void main (String args []){
 		new Labyrinth();
 		LabyrinthDisplay game = null;
-		while(game!=null){
+		while(game==null){
+			System.out.print("");
 			if(begin){
 				int diff =tableaudeChoix[1];
 				int chara = tableaudeChoix[0];
@@ -202,7 +184,6 @@ public class Labyrinth extends JFrame implements ActionListener {
 				int vis = tableaudeChoix[3];
 				System.out.println(diff+" "+chara+" "+wall+" "+vis);
 				game = new LabyrinthDisplay(diff,chara,wall,vis);
-				if(game.gameWon) game = null;
 			}
 		}
 	}
