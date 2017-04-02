@@ -148,9 +148,9 @@ public class Labyrinth extends JFrame implements ActionListener {
 		Fond.setBounds(0,0,800,600);
 		conteneur.add(Fond);
 		this.setVisible(true);
-    }
+    	}
+	
 	public void actionPerformed (ActionEvent e){
-			
 		if(e.getSource()==start){
 			Object X =Personnage.getSelectedItem(); //choosen character
 			if(X=="Girl") tableaudeChoix[0]=2;
@@ -166,11 +166,7 @@ public class Labyrinth extends JFrame implements ActionListener {
 			else if(Y=="5") tableaudeChoix[3]=5;
 			begin=true;
 		}
-		
-		
-	
 	}
-	
   
 	public static  void main (String args []){
 		new Labyrinth();
